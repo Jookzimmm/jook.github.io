@@ -1,1 +1,110 @@
-<p>oi</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Selector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .anime {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .anime img {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .anime-name {
+            text-align: center;
+            margin-top: 5px;
+            color: #fff;
+        }
+        .episodes {
+            margin-top: 20px;
+            color: #fff;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 5px;
+        }
+        /* Alteração de cor para azul */
+        .container {
+            background-color: #336699;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="search" placeholder="Search anime...">
+        <div id="anime-list"></div>
+        <div id="episodes"></div>
+    </div>
+
+    <script>
+        const animeList = [
+            { name: "Mashle", cover: "mashle.jpg", episodes: ["Episode 1", "Episode 2", "Episode 3", "Episode ", "Episode 5", "Episode 6", "Episode 7", "Episode 8", "Episode 9", "Episode 10", "Episode 11", "Episode 12"] }
+            // Adicione mais animes conforme necessário
+        ];
+
+        const searchInput = document.getElementById('search');
+        const animeListContainer = document.getElementById('anime-list');
+        const episodesContainer = document.getElementById('episodes');
+
+        // Função para renderizar a lista de animes
+        function renderAnimeList(animeArr) {
+            animeListContainer.innerHTML = '';
+            animeArr.forEach(anime => {
+                const animeDiv = document.createElement('div');
+                animeDiv.classList.add('anime');
+                animeDiv.innerHTML = `
+                    <a href="anime.html?name=${encodeURIComponent(anime.name)}">
+                        <img src="${anime.cover}" alt="${anime.name}">
+                        <div class="anime-name">${anime.name}</div>
+                    </a>
+                `;
+                animeListContainer.appendChild(animeDiv);
+            });
+        }
+
+        // Função para renderizar os episódios de um anime
+        function renderEpisodes(episodesArr) {
+            episodesContainer.innerHTML = '';
+            episodesArr.forEach(episode => {
+                const episodeDiv = document.createElement('div');
+                episodeDiv.textContent = episode;
+                episodesContainer.appendChild(episodeDiv);
+            });
+        }
+
+        // Filtrar animes enquanto digita no campo de pesquisa
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredAnimeList = animeList.filter(anime => anime.name.toLowerCase().includes(searchTerm));
+            renderAnimeList(filteredAnimeList);
+        });
+
+        // Renderizar a lista de animes na inicialização
+        renderAnimeList(animeList);
+    </script>
+</body>
+</html>
