@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Episodes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .episode-list {
+            margin-top: 20px;
+            text-align: center; /* Centraliza o conteúdo */
+        }
+        .episode {
+            margin-bottom: 10px;
+            display: inline-block;
+            text-align: left; /* Alinha o texto à esquerda */
+        }
+        h1 {
+            align-self: center;
+            color: #b96622;
+        }
+        h3 {
+            color: #aa800e;
+        }
+        video {
+            background-color: #000;
+            margin: 0 auto; /* Centraliza os vídeos */
+            display: block;
+            border: 3px solid #FFD700; /* Adiciona uma borda amarela */
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="anime-title"></h1>
+        <div class="episode-list" id="episode-list"></div>
+    </div>
+
+    <script>
+        // Função para obter o parâmetro da URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        const animeTitle = document.getElementById('anime-title');
+        const episodeList = document.getElementById('episode-list');
+
+        // Obter o nome do anime da URL
+        const animeName = getParameterByName('name');
+
+        // Função para renderizar a lista de episódios do anime selecionado
+        function renderEpisodeList(episodesArr) {
+            episodesArr.forEach((episode, index) => {
+                const episodeDiv = document.createElement('div');
+                episodeDiv.classList.add('episode');
+                episodeDiv.innerHTML = `
+                    <h3>Episode ${index + 1}</h3>
+                    <video width="400" controls>
+                        <source src="${episode}" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                    </video>
+                `;
+                episodeList.appendChild(episodeDiv);
+            });
+        }
+
+        // Verificar se o nome do anime está presente na URL
+        if (animeName) {
+            // Aqui você pode substituir esta lógica por um método para buscar os episódios do anime selecionado de uma fonte de dados externa
+            // Para fins de demonstração, vou usar um objeto que mapeia o nome do anime para seus episódios
+            const animeEpisodes = {
+                "Mashle": ["1.mp4", "2.mp4", "3.mp4", "4.mp4", "5.mp4", "6.mp4", "7.mp4", "8.mp4",  "9.mp4", "10.mp4", "11.mp4", "12.mp4"]
+            };
+
+            // Renderizar o título do anime
+            animeTitle.textContent = animeName;
+
+            // Verificar se o anime selecionado possui episódios definidos
+            if (animeEpisodes[animeName]) {
+                renderEpisodeList(animeEpisodes[animeName]);
+            } else {
+                episodeList.textContent = "No episodes found.";
+            }
+        } else {
+            animeTitle.textContent = "Anime not found.";
+        }
+    </script>
+</body>
+</html>
